@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 128 100" role="img" aria-labelledby="title desc">
+  <title id="title">안내 표지판</title>
+  <desc id="desc">웨딩 퀘스트 방향을 알려주는 나무 표지판</desc>
+  <defs>
+    <linearGradient id="wood" x1="0" x2="0" y1="0" y2="1">
+      <stop offset="0" stop-color="#d89a5d"/>
+      <stop offset="1" stop-color="#8d5a34"/>
+    </linearGradient>
+    <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="3" stdDeviation="1.2" flood-color="#493022" flood-opacity=".22"/>
+    </filter>
+  </defs>
+  <ellipse cx="64" cy="94" rx="34" ry="5" fill="#46352b" opacity=".15"/>
+  <g filter="url(#shadow)">
+    <path d="M58 44h12v48H58z" fill="#7c4c2f"/>
+    <path d="M20 18h88l12 18-12 18H20z" fill="url(#wood)" stroke="#704427" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M32 32h48m10 0h10" stroke="#f8d299" stroke-width="4" stroke-linecap="round" opacity=".75"/>
+    <path d="M87 25l14 8-14 8" fill="none" stroke="#fff3c8" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M41 19c-8-8-19 1-11 12l11 11 11-11c8-11-3-20-11-12z" fill="#ff7aa7"/>
+  </g>
+</svg>

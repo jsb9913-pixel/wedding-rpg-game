@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>원중 & 수빈 Wedding Quest</title>
+    <link rel="stylesheet" href="./style.css" />
+  </head>
+  <body>
+    <main class="page">
+      <section class="game-frame" id="gameFrame" aria-label="원중 수빈 웨딩 퀘스트 게임">
+        <div class="ambient-glow"></div>
+        <div class="petal-layer" id="petalLayer" aria-hidden="true"></div>
+
+        <section class="intro-screen" id="introScreen">
+          <div class="intro-card">
+            <p class="eyebrow">WEDDING QUEST</p>
+            <h1>원중 <span>&</span> 수빈</h1>
+            <p class="intro-copy">
+              귀여운 하객 캐릭터로 웨딩 정원을 걸으며 잃어버린 청첩장을 찾아주세요.
+            </p>
+            <label class="name-field" for="guestNameInput">
+              <span>하객 이름</span>
+              <input id="guestNameInput" maxlength="12" autocomplete="name" placeholder="김포포" />
+            </label>
+            <button class="primary-button" id="startButton" type="button">게임 시작</button>
+            <p class="control-tip">← → / A D 이동 · ↑ / W 점프 · Enter 대화 · Space 공격</p>
+          </div>
+        </section>
+
+        <section class="game-screen" id="gameScreen" hidden>
+          <aside class="quest-box" id="questBox" aria-live="polite">
+            <h2 id="questTitle">QUEST</h2>
+            <p id="questLineOne">□ 원중&수빈에게 말 걸기</p>
+            <p id="questLineTwo" hidden></p>
+            <p id="questLineThree" hidden></p>
+          </aside>
+
+          <div class="viewport" id="viewport">
+            <div class="static-sky" aria-hidden="true">
+              <span class="cloud cloud-a"></span>
+              <span class="cloud cloud-b"></span>
+              <span class="cloud cloud-c"></span>
+            </div>
+
+            <div class="world" id="world">
+              <img class="scene-bg" id="sceneBg" src="./assets/backgrounds/wedding-map-unified.png" alt="" draggable="false" />
+
+              <div class="actor npc groom" id="npcGroom" data-id="groom">
+                <span class="quest-marker" id="questMarkerGroom" aria-label="퀘스트 시작 가능">
+                  <img src="./assets/ui/quest-bulb.png" alt="" draggable="false" />
+                </span>
+                <span class="name-tag">신랑: 원중</span>
+                <img src="./assets/characters/lookbook-groom.png" alt="신랑 원중 캐릭터" draggable="false" />
+              </div>
+
+              <div class="prop arch" id="weddingArch" data-id="arch">
+                <span class="quest-marker quest-marker-arch" id="questMarkerArch" aria-label="퀘스트 완료 가능" hidden>
+                  <img src="./assets/ui/quest-book.png" alt="" draggable="false" />
+                </span>
+              </div>
+
+              <div class="actor npc bride" id="npcBride" data-id="bride">
+                <span class="quest-marker" id="questMarkerBride" aria-label="퀘스트 시작 가능">
+                  <img src="./assets/ui/quest-bulb.png" alt="" draggable="false" />
+                </span>
+                <span class="name-tag">신부: 수빈</span>
+                <img src="./assets/characters/lookbook-bride.png" alt="신부 수빈 캐릭터" draggable="false" />
+              </div>
+
+              <div class="actor monster mushroom mushroom-a" id="mushroomA" data-id="mushroomA">
+                <span class="hp-bar" aria-hidden="true"><i></i></span>
+                <span class="bubble" aria-hidden="true"></span>
+                <span class="name-tag">주황버섯</span>
+                <img src="./assets/monsters/orange-mushroom.png" alt="주황버섯 몬스터" draggable="false" />
+              </div>
+              <div class="actor monster mushroom mushroom-b" id="mushroomB" data-id="mushroomB">
+                <span class="hp-bar" aria-hidden="true"><i></i></span>
+                <span class="bubble" aria-hidden="true"></span>
+                <span class="name-tag">주황버섯</span>
+                <img src="./assets/monsters/orange-mushroom.png" alt="주황버섯 몬스터" draggable="false" />
+              </div>
+              <div class="actor monster mushroom mushroom-c" id="mushroomC" data-id="mushroomC">
+                <span class="hp-bar" aria-hidden="true"><i></i></span>
+                <span class="bubble" aria-hidden="true"></span>
+                <span class="name-tag">주황버섯</span>
+                <img src="./assets/monsters/orange-mushroom.png" alt="주황버섯 몬스터" draggable="false" />
+              </div>
+
+              <div class="drops-layer" id="dropsLayer" aria-hidden="true"></div>
+              <span class="slash-effect" id="slashEffect" hidden></span>
+
+              <div class="actor player" id="player">
+                <span class="name-tag" id="playerNameTag">김포포</span>
+                <img id="playerSprite" src="./assets/characters/guests/guest-01.png" alt="하객 플레이어 캐릭터" draggable="false" />
+                <span class="shadow"></span>
+              </div>
+            </div>
+
+            <div class="interaction-prompt" id="interactionPrompt" hidden>Enter / A</div>
+          </div>
+
+          <div class="dialogue quest-dialogue" id="dialogue" hidden>
+            <div class="portrait-frame">
+              <img id="dialoguePortrait" alt="" />
+            </div>
+            <div class="dialogue-body">
+              <strong id="dialogueName"></strong>
+              <p id="dialogueText"></p>
+              <div class="dialogue-summary" id="dialogueSummary" hidden></div>
+              <div class="dialogue-actions" id="dialogueActions" hidden>
+                <button class="small-button" id="acceptQuestButton" type="button">수락하기</button>
+                <button class="small-button quiet-button" id="rejectQuestButton" type="button">거절하기</button>
+              </div>
+              <button class="small-button dialogue-action" id="dialogueAction" type="button" hidden></button>
+              <span class="dialogue-hint" id="dialogueHint">Enter / A</span>
+            </div>
+          </div>
+
+          <div class="mini-panel" id="miniPanel" hidden>
+            <button class="mini-close" id="miniCloseButton" type="button" aria-label="닫기">×</button>
+            <h3 id="miniPanelTitle">QUEST</h3>
+            <div id="miniPanelBody"></div>
+          </div>
+
+          <div class="toast" id="toast" hidden></div>
+
+          <div class="modal" id="questCompleteModal" hidden>
+            <div class="modal-card complete-card" role="dialog" aria-modal="true" aria-labelledby="questCompleteTitle">
+              <button class="close-button" data-close="questCompleteModal" type="button" aria-label="닫기">×</button>
+              <p class="eyebrow">QUEST COMPLETE</p>
+              <h2 id="questCompleteTitle">[웨딩퀘스트] 잃어버린 청첩장</h2>
+              <p class="complete-copy">
+                청첩장 제출 완료!!<br />
+                모바일 청첩장을 확인할 수 있어요.
+              </p>
+              <div class="modal-actions">
+                <button class="secondary-button" id="openInvitationButton" type="button">모바일청첩장 링크 확인하기</button>
+                <button class="small-button quiet-button" data-close="questCompleteModal" type="button">닫기</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="hud" id="hud">
+            <div class="hud-main">
+              <div class="hud-profile">
+                <strong id="hudLevel">LV. 24</strong>
+                <span id="hudName">김포포</span>
+              </div>
+              <div class="hud-bars">
+                <div class="status-line hp-line">
+                  <b>HP</b>
+                  <span class="gauge"><i id="hpGauge"></i></span>
+                  <em id="hudHp">1024 / 1024</em>
+                </div>
+                <div class="status-line love-line">
+                  <b>LOVE</b>
+                  <span class="gauge"><i id="loveGauge"></i></span>
+                  <em id="hudLove">100%</em>
+                </div>
+                <div class="status-line exp-line">
+                  <b>EXP</b>
+                  <span class="gauge"><i id="expGauge"></i></span>
+                  <em id="hudExp">24.10%</em>
+                </div>
+              </div>
+              <div class="hud-item" id="hudInvitation">청첩장 x 0</div>
+            </div>
+            <div class="hud-actions">
+              <button type="button" id="menuButton">MENU</button>
+              <button type="button" id="inventoryButton">INV</button>
+              <button type="button" id="questButton">QUEST</button>
+              <button class="attack-button" type="button" id="attackButton">ATTACK</button>
+            </div>
+          </div>
+
+          <div class="touch-controls" id="touchControls" aria-label="모바일 이동 조작 버튼">
+            <div class="touch-left">
+              <button type="button" data-control="left" aria-label="왼쪽 이동">‹</button>
+              <button type="button" data-control="right" aria-label="오른쪽 이동">›</button>
+            </div>
+            <div class="touch-right">
+              <button type="button" data-control="jump" aria-label="점프">JUMP</button>
+              <button type="button" data-control="action" aria-label="대화 또는 줍기">A</button>
+            </div>
+          </div>
+        </section>
+      </section>
+    </main>
+
+    <script src="./game.js"></script>
+  </body>
+</html>
