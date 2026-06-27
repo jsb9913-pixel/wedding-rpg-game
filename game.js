@@ -10,8 +10,8 @@ const GROUND_PATH = [
 ];
 const FOOT_OFFSET = {
   player: 4,
-  groom: 11,
-  bride: 4,
+  groom: 19,
+  bride: 12,
   mushroom: 28,
   arch: 0
 };
@@ -30,7 +30,7 @@ const GUEST_SPRITES = Array.from({ length: 60 }, (_, index) => {
   return `./assets/characters/guests/guest-${number}.png`;
 });
 const MOBILE_INVITATION_URL = "https://toourguest.com/cards/weddingws";
-const PROGRESS_VERSION = 14;
+const PROGRESS_VERSION = 15;
 const ATTACK_COOLDOWN = 420;
 
 const state = {
